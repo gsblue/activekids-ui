@@ -16,7 +16,8 @@ interface ChildForm {
 const FamilyConfig: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
-  const { children, loading, error } = useSelector((state: RootState) => state.family);
+  const children = useSelector((state: RootState) => state.family.children);
+  const loading = useSelector((state: RootState) => state.family.loading);
   const [childForm, setChildForm] = useState<ChildForm>({
     firstName: '',
     birthMonth: '',
@@ -25,10 +26,10 @@ const FamilyConfig: React.FC = () => {
   const [editingChild, setEditingChild] = useState<Child | null>(null);
 
   useEffect(() => {
-    if (children.length === 0) {
+    if (children === null) {
       dispatch(fetchChildren());
     }
-  }, [dispatch]);
+  }, [dispatch, children]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,7 +52,7 @@ const FamilyConfig: React.FC = () => {
       
       resetForm();
       
-      if (children.length === 0) {
+      if (children === null || children.length === 0) {
         navigate('/');
       }
     } catch (err) {
@@ -83,12 +84,16 @@ const FamilyConfig: React.FC = () => {
     setEditingChild(null);
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className={`max-w-4xl mx-auto px-4 py-8 ${fadeIn}`}>
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Family Configuration</h1>
         <p className="text-gray-600">
-          {children.length === 0 
+          {children === null || children.length === 0 
             ? "Let's set up your family profile by adding your children."
             : "Manage your family members and settings."}
         </p>
@@ -153,8 +158,8 @@ const FamilyConfig: React.FC = () => {
             </div>
           </div>
 
-          {error && (
-            <div className="text-red-500 text-sm">{error}</div>
+          {children === null && (
+            <div className="text-red-500 text-sm">Loading children...</div>
           )}
 
           <div className="flex gap-4">
@@ -183,7 +188,9 @@ const FamilyConfig: React.FC = () => {
         </form>
       </div>
 
-      {children.length > 0 && (
+      {children?.length === 0 ? (
+        <p>No children added yet. Add your first child to get started!</p>
+      ) : (
         <div className={`bg-white rounded-lg shadow-md p-6 ${slideIn}`}>
           <h2 className="text-xl font-semibold mb-4">Your Children</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

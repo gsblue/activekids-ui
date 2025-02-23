@@ -49,7 +49,7 @@ const Events: React.FC = () => {
         </div>
       </div>
 
-      {events.length === 0 ? (
+      {events?.length === 0 ? (
         <div className="text-center py-12">
           <p className="text-gray-500 mb-4">No events recorded yet.</p>
           <div className="space-x-4">
@@ -69,7 +69,7 @@ const Events: React.FC = () => {
           </div>
         </div>
       ) : (
-        <EventList events={events} />
+        <EventList events={events || []} />
       )}
     </div>
   );

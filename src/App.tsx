@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Dashboard from './components/Dashboard/Dashboard';
 import Login from './components/Auth/Login';
 import SignUp from './components/Auth/SignUp';
@@ -12,10 +12,19 @@ import ChildProfile from './components/Child/ChildProfile';
 import Analytics from './components/Analytics/Analytics';
 import Layout from './components/layout/Layout';
 import { RootState } from './store';
+import { AppDispatch } from './store';
+import { fetchChildren } from './store/thunks/familyThunks';
 
 const App: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const { children } = useSelector((state: RootState) => state.family);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      dispatch(fetchChildren());
+    }
+  }, [dispatch, isAuthenticated]);
 
   // Protected route component
   const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children: routeChildren }) => {

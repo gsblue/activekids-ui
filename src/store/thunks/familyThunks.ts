@@ -13,7 +13,7 @@ export const fetchChildren = createAsyncThunk(
     'family/fetchChildren',
     async () => {
         const response = await familyAPI.getChildren();
-        return response.data;
+        return response.data || [];
     }
 );
 

@@ -20,9 +20,14 @@ const Dashboard: React.FC = () => {
     useEffect(() => {
         const loadData = async () => {
             try {
+                // Only fetch if we don't have data
                 const promises = [];
-                if (events.length === 0) promises.push(dispatch(fetchEvents()));
-                if (children.length === 0) promises.push(dispatch(fetchChildren()));
+                if (!events || events.length === 0) {
+                    promises.push(dispatch(fetchEvents()));
+                }
+                if (!children || children.length === 0) {
+                    promises.push(dispatch(fetchChildren()));
+                }
                 if (promises.length > 0) {
                     await Promise.all(promises);
                 }
@@ -30,13 +35,26 @@ const Dashboard: React.FC = () => {
                 setLoading(false);
             }
         };
-        loadData();
-    }, [dispatch, events.length, children.length]);
+        
+        // Only run loadData if we're in the loading state
+        if (loading) {
+            loadData();
+        }
+    }, [dispatch, loading, children, events]);
 
     if (loading) {
         return (
             <div className="flex justify-center items-center h-64">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
+            </div>
+        );
+    }
+
+    if (children.length === 0) {
+        return (
+            <div className="text-center p-8">
+                <h2 className="text-xl font-semibold">Welcome to Active Kids!</h2>
+                <p className="mt-4">Please add your children in the Family Configuration page to get started.</p>
             </div>
         );
     }
@@ -72,7 +90,7 @@ const Dashboard: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <Card className={`p-6 ${slideIn} delay-100`}>
                     <h2 className="text-xl font-semibold text-gray-900 mb-4">Points Overview</h2>
-                    <PointsChart data={events} />
+                    <PointsChart data={events || []} />
                 </Card>
 
                 <Card className={`p-6 ${slideIn} delay-200`}>
@@ -87,7 +105,7 @@ const Dashboard: React.FC = () => {
                             View All
                         </Button>
                     </div>
-                    <EventList events={events.slice(0, 5)} />
+                    <EventList events={events?.slice(0, 5) || []} />
                 </Card>
             </div>
 
