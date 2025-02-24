@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
 import { login } from '../../store/thunks/authThunks';
 import { LoginRequest } from '../../types';
+import Logo from '../common/Logo';
 
 const Login: React.FC = () => {
     const navigate = useNavigate();
@@ -25,11 +26,11 @@ const Login: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gradient-to-b from-primary-50 to-white">
+        <div className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-orange-50/30">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
-                <h1 className="text-center text-4xl font-extrabold text-gray-900 mb-2">
-                    FamilyPoints
-                </h1>
+                <div className="flex justify-center">
+                    <Logo size="large" />
+                </div>
                 <h2 className="mt-6 text-center text-2xl font-bold text-gray-900">
                     Sign in to your account
                 </h2>
@@ -97,7 +98,7 @@ const Login: React.FC = () => {
                             </div>
                             <div className="relative flex justify-center text-sm">
                                 <span className="px-2 bg-white text-gray-500">
-                                    New to FamilyPoints?
+                                    New to Good Joeys?
                                 </span>
                             </div>
                         </div>

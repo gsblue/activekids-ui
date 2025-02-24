@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
+import JoeyLogo from '../../assets/joey-logo.png';
 
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -70,14 +71,19 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-orange-50/30">
       <nav className="bg-white shadow-md">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex justify-between h-16">
             <div className="flex">
-              <div className="flex-shrink-0 flex items-center">
-                <Link to="/" className="text-2xl font-bold text-primary-600">
-                  FamilyPoints
+              <div className="flex-shrink-0 flex items-center space-x-2">
+                <img 
+                  src={JoeyLogo} 
+                  alt="Good Joeys Logo" 
+                  className="h-10 w-auto"
+                />
+                <Link to="/" className="text-2xl font-bold text-primary-600 flex items-center">
+                  Good Joeys
                 </Link>
               </div>
               
@@ -97,8 +103,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                           inline-flex items-center h-16 px-1 border-b-2
                           text-sm font-medium transition-colors duration-200
                           ${isPathActive(item.path)
-                            ? 'border-primary-500 text-primary-600'
-                            : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'}
+                            ? 'border-orange-500 text-orange-600'
+                            : 'border-transparent text-gray-500 hover:border-orange-300 hover:text-orange-700'}
                         `}
                       >
                         {item.label}
@@ -145,8 +151,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         inline-flex items-center h-16 px-1 border-b-2
                         text-sm font-medium transition-colors duration-200
                         ${isPathActive(item.path)
-                          ? 'border-primary-500 text-primary-600'
-                          : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'}
+                          ? 'border-orange-500 text-orange-600'
+                          : 'border-transparent text-gray-500 hover:border-orange-300 hover:text-orange-700'}
                       `}
                     >
                       {item.label}
@@ -200,8 +206,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     className={`
                       px-3 py-2 text-base font-medium border-l-4
                       ${isPathActive(item.path)
-                        ? 'border-primary-500 text-primary-600 bg-primary-50'
-                        : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700'}
+                        ? 'border-orange-500 text-orange-600 bg-orange-50'
+                        : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-orange-300 hover:text-orange-700'}
                     `}
                   >
                     {item.label}
@@ -215,8 +221,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         className={`
                           block py-2 pl-3 pr-4 text-base font-medium border-l-4
                           ${location.pathname === subItem.path
-                            ? 'border-primary-500 text-primary-600 bg-primary-50'
-                            : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700'}
+                            ? 'border-orange-500 text-orange-600 bg-orange-50'
+                            : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-orange-300 hover:text-orange-700'}
                         `}
                       >
                         {subItem.label}
@@ -232,8 +238,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                   className={`
                     block py-2 pl-3 pr-4 text-base font-medium border-l-4
                     ${isPathActive(item.path)
-                      ? 'border-primary-500 text-primary-600 bg-primary-50'
-                      : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700'}
+                      ? 'border-orange-500 text-orange-600 bg-orange-50'
+                      : 'border-transparent text-gray-500 hover:bg-gray-50 hover:border-orange-300 hover:text-orange-700'}
                   `}
                 >
                   {item.label}
@@ -243,7 +249,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <button
               onClick={handleLogout}
               disabled={isLoggingOut}
-              className="block w-full text-left py-2 pl-3 pr-4 text-base font-medium border-l-4 border-transparent text-gray-500 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-700"
+              className="block w-full text-left py-2 pl-3 pr-4 text-base font-medium border-l-4 border-transparent text-gray-500 hover:bg-gray-50 hover:border-orange-300 hover:text-orange-700"
             >
               {isLoggingOut ? 'Logging out...' : 'Logout'}
             </button>

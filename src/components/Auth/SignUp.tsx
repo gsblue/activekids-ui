@@ -6,8 +6,9 @@ import { signup } from '../../store/thunks/authThunks';
 import { SignUpRequest } from '../../types';
 import Button from '../common/Button';
 import Card from '../common/Card';
-import { transitions, fadeIn, slideIn } from '../../utils/animations';
+import { transitions, slideIn } from '../../utils/animations';
 import { validatePassword } from '../../utils/validation';
+import Logo from '../common/Logo';
 
 const SignUp: React.FC = () => {
     const navigate = useNavigate();
@@ -38,14 +39,17 @@ const SignUp: React.FC = () => {
     };
 
     return (
-        <div className={`min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-primary-100 py-12 px-4 sm:px-6 lg:px-8 ${fadeIn}`}>
+        <div className="min-h-screen flex items-center justify-center bg-orange-50/30 py-12 px-4 sm:px-6 lg:px-8">
             <Card className={`max-w-md w-full space-y-8 ${slideIn}`}>
                 <div>
+                    <div className="flex justify-center">
+                        <Logo size="large" />
+                    </div>
                     <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
                         Create your account
                     </h2>
                     <p className="mt-2 text-center text-sm text-gray-600">
-                        Join FamilyPoints today
+                        Join Good Joeys today
                     </p>
                 </div>
 
