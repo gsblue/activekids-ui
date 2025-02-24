@@ -50,7 +50,7 @@ const Analytics: React.FC = () => {
                         className="rounded border p-2"
                     >
                         <option value="all">All Children</option>
-                        {children.map(child => (
+                        {children?.map(child => (
                             <option key={child.id} value={child.id}>
                                 {child.firstName}
                             </option>

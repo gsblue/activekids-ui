@@ -23,7 +23,7 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 const ChildProfile: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const child = useSelector((state: RootState) => 
-        state.family.children.find(c => c.id === id)
+        state.family.children?.find(c => c.id === id)
     );
     const [stats, setStats] = useState<any>(null);
     const [loading, setLoading] = useState(true);

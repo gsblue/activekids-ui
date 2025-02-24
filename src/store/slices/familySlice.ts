@@ -48,7 +48,7 @@ const familySlice = createSlice({
       })
       .addCase(addChild.fulfilled, (state, action) => {
         state.loading = false;
-        state.children.push(action.payload);
+        state.children?.push(action.payload);
       })
       .addCase(addChild.rejected, (state, action) => {
         state.loading = false;
@@ -63,8 +63,8 @@ const familySlice = createSlice({
       })
       .addCase(updateChild.fulfilled, (state, action) => {
         state.loading = false;
-        const index = state.children.findIndex(child => child.id === action.payload.id);
-        if (index !== -1) {
+        const index = state.children?.findIndex(child => child.id === action.payload.id);
+        if (index !== -1 && state.children && index !== undefined) {
           state.children[index] = action.payload;
         }
       })
@@ -81,7 +81,8 @@ const familySlice = createSlice({
       })
       .addCase(deleteChild.fulfilled, (state, action) => {
         state.loading = false;
-        state.children = state.children.filter(child => child.id !== action.payload);
+        const filtered = state.children?.filter(child => child.id !== action.payload);
+        state.children = filtered || null;
       })
       .addCase(deleteChild.rejected, (state, action) => {
         state.loading = false;

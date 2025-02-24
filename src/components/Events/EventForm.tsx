@@ -84,7 +84,7 @@ const EventForm: React.FC = () => {
             required
           >
             <option value="">Select a child</option>
-            {children.map((child) => (
+            {children?.map((child) => (
               <option key={child.id} value={child.id}>
                 {child.firstName}
               </option>
