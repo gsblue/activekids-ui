@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { AppDispatch, RootState } from '../../store';
 import { fetchEvents } from '../../store/thunks/eventThunks';
 import { fetchChildren } from '../../store/thunks/familyThunks';
+import { fetchFamilySummary } from '../../store/thunks/familyThunks';
 import EventList from '../Events/EventList';
 import PointsChart from '../Charts/PointsChart';
 import Card from '../common/Card';
@@ -12,7 +13,7 @@ import { fadeIn, slideIn } from '../../utils/animations';
 
 const Dashboard: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { children } = useSelector((state: RootState) => state.family);
+    const { children, summary } = useSelector((state: RootState) => state.family);
     const { events } = useSelector((state: RootState) => state.events);
     const { user } = useSelector((state: RootState) => state.auth);
     const [loading, setLoading] = useState(true);
@@ -20,13 +21,15 @@ const Dashboard: React.FC = () => {
     useEffect(() => {
         const loadData = async () => {
             try {
-                // Only fetch if we don't have data
                 const promises = [];
-                if (!events || events.length === 0) {
+                if (!events?.length) {
                     promises.push(dispatch(fetchEvents()));
                 }
-                if (!children || children.length === 0) {
+                if (!children?.length) {
                     promises.push(dispatch(fetchChildren()));
+                }
+                if (!summary) {
+                    promises.push(dispatch(fetchFamilySummary()));
                 }
                 if (promises.length > 0) {
                     await Promise.all(promises);
@@ -35,14 +38,11 @@ const Dashboard: React.FC = () => {
                 setLoading(false);
             }
         };
-        
-        // Only run loadData if we're in the loading state
-        if (loading) {
-            loadData();
-        }
-    }, [dispatch, loading, children, events]);
 
-    if (loading) {
+        loadData();
+    }, [dispatch]);
+
+    if (loading && (!events || !children || !summary)) {
         return (
             <div className="flex justify-center items-center h-64">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
@@ -50,7 +50,7 @@ const Dashboard: React.FC = () => {
         );
     }
 
-    if (children.length === 0) {
+    if (children?.length === 0) {
         return (
             <div className="text-center p-8">
                 <h2 className="text-xl font-semibold">Welcome to Active Kids!</h2>
@@ -90,7 +90,7 @@ const Dashboard: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <Card className={`p-6 ${slideIn} delay-100`}>
                     <h2 className="text-xl font-semibold text-gray-900 mb-4">Points Overview</h2>
-                    <PointsChart data={events || []} />
+                    <PointsChart data={summary?.children || []} />
                 </Card>
 
                 <Card className={`p-6 ${slideIn} delay-200`}>
@@ -122,7 +122,7 @@ const Dashboard: React.FC = () => {
                     </Button>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {children.map((child, index) => (
+                    {children?.map((child, index) => (
                         <Link
                             key={child.id}
                             to={`/child/${child.id}`}

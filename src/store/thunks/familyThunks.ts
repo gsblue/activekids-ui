@@ -39,4 +39,12 @@ export const deleteChild = createAsyncThunk(
         await familyAPI.deleteChild(childId);
         return childId;
     }
-); 
+);
+
+export const fetchFamilySummary = createAsyncThunk(
+    'family/fetchSummary',
+    async () => {
+        const response = await familyAPI.getFamilySummary();
+        return response.data;
+    }
+);

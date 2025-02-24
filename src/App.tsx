@@ -32,7 +32,7 @@ const App: React.FC = () => {
       return <Navigate to="/login" replace />;
     }
 
-    if (children.length === 0 && window.location.pathname !== '/family/config') {
+    if (children?.length === 0 && window.location.pathname !== '/family/config') {
       return <Navigate to="/family/config" replace />;
     }
 

@@ -1,52 +1,54 @@
 import React from 'react';
 import { 
     ResponsiveContainer, 
-    LineChart, 
-    Line, 
+    BarChart,
+    Bar,
     XAxis, 
     YAxis, 
     CartesianGrid, 
-    Tooltip 
-} from 'recharts';  // Changed from 'recharts/lib/index.js'
-import { Event } from '../../types';
-import { formatDate } from '../../utils/dateUtils';
+    Tooltip,
+    Legend
+} from 'recharts';
+import { ChildSummary } from '../../types';
 import { fadeIn } from '../../utils/animations';
 
 interface PointsChartProps {
-    data: Event[];
+    data: ChildSummary[];
 }
 
 const PointsChart: React.FC<PointsChartProps> = ({ data }) => {
-    const chartData = data.reduce((acc: any[], event) => {
-        const date = formatDate(event.eventDate);
-        const existingDate = acc.find(item => item.date === date);
-        
-        const points = event.eventType === 'Good' ? event.points : -event.points;
-        
-        if (existingDate) {
-            existingDate.points += points;
-        } else {
-            acc.push({ date, points });
-        }
-        
-        return acc;
-    }, []);
+    const chartData = data.map(child => ({
+        name: child.firstName,
+        points: child.totalPoints,
+        good: child.goodActivities,
+        bad: child.badActivities
+    }));
 
     return (
         <div className={`w-full h-[300px] ${fadeIn}`}>
             <ResponsiveContainer width="100%" height="100%">
-                <LineChart width={500} height={300} data={chartData}>
+                <BarChart data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                    <XAxis dataKey="date" stroke="#6B7280" fontSize={12} tickLine={false} />
+                    <XAxis dataKey="name" stroke="#6B7280" fontSize={12} tickLine={false} />
                     <YAxis stroke="#6B7280" fontSize={12} tickLine={false} />
                     <Tooltip />
-                    <Line 
-                        type="monotone" 
+                    <Legend />
+                    <Bar 
                         dataKey="points" 
-                        stroke="#3B82F6" 
-                        strokeWidth={2}
+                        name="Total Points"
+                        fill="#3B82F6" 
                     />
-                </LineChart>
+                    <Bar 
+                        dataKey="good" 
+                        name="Good Activities"
+                        fill="#34D399" 
+                    />
+                    <Bar 
+                        dataKey="bad" 
+                        name="Bad Activities"
+                        fill="#F87171" 
+                    />
+                </BarChart>
             </ResponsiveContainer>
         </div>
     );

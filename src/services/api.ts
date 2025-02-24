@@ -55,6 +55,8 @@ export const familyAPI = {
         api.put('/family/child', childData),
     deleteChild: (childId: string) =>
         api.delete(`/family/child/${childId}`),
+    getFamilySummary: () => 
+        api.get('/family/summary'),
 };
 
 export const eventAPI = {

@@ -79,3 +79,15 @@ export interface FamilyState {
   loading: boolean;
   error: string | null;
 } 
+
+export interface ChildSummary {
+  id: string;
+  firstName: string;
+  totalPoints: number;
+  goodActivities: number;
+  badActivities: number;
+}
+
+export interface FamilySummary {
+  children: ChildSummary[];
+}

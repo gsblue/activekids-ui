@@ -1,9 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchChildren, addChild, updateChild, deleteChild } from '../thunks/familyThunks';
-import { Child } from '../../types';
+import { fetchChildren, addChild, updateChild, deleteChild, fetchFamilySummary } from '../thunks/familyThunks';
+import { Child, FamilySummary } from '../../types';
 
 interface FamilyState {
-  children: Child[];
+  children: Child[] | null;
+  summary: FamilySummary | null;
   events: any[];
   categories: any[];
   loading: boolean;
@@ -11,7 +12,8 @@ interface FamilyState {
 }
 
 const initialState: FamilyState = {
-  children: [],
+  children: null,
+  summary: null,
   events: [],
   categories: [],
   loading: false,
@@ -84,6 +86,21 @@ const familySlice = createSlice({
       .addCase(deleteChild.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || 'Failed to delete child';
+      });
+
+    // Add new cases for summary
+    builder
+      .addCase(fetchFamilySummary.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchFamilySummary.fulfilled, (state, action) => {
+        state.loading = false;
+        state.summary = action.payload;
+      })
+      .addCase(fetchFamilySummary.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || 'Failed to fetch summary';
       });
   },
 });
